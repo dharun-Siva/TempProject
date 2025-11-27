@@ -13,7 +13,8 @@ pipeline {
     stages {
         stage('Checkout Code') {
             steps {
-                git credentialsId: "${GIT_CREDENTIALS}", url: 'https://github.com/dharun-Siva/TempProject.git'
+                // Specify the correct branch (main)
+                git branch: 'main', credentialsId: "${GIT_CREDENTIALS}", url: 'https://github.com/dharun-Siva/TempProject.git'
             }
         }
 
@@ -38,27 +39,4 @@ pipeline {
                 echo 'You can add AWS ECR login and push commands here if needed'
                 // Example (optional):
                 // sh 'aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin <your_account>.dkr.ecr.ap-south-1.amazonaws.com'
-                // sh 'docker tag ${BACKEND_IMAGE} <your_account>.dkr.ecr.ap-south-1.amazonaws.com/${BACKEND_IMAGE}'
-                // sh 'docker push <your_account>.dkr.ecr.ap-south-1.amazonaws.com/${BACKEND_IMAGE}'
-            }
-        }
-
-        stage('Deploy with Docker Compose') {
-            steps {
-                script {
-                    sh 'docker-compose down'
-                    sh 'docker-compose up -d'
-                }
-            }
-        }
-    }
-
-    post {
-        success {
-            echo 'Pipeline completed successfully!'
-        }
-        failure {
-            echo 'Pipeline failed. Check logs!'
-        }
-    }
-}
+                // sh 'docker tag ${BACKEND_IMAGE} <_
