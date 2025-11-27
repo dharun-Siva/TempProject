@@ -37,6 +37,25 @@ pipeline {
         stage('Push to ECR / Local Registry') {
             steps {
                 echo 'You can add AWS ECR login and push commands here if needed'
-                // Example (optional):
-                // sh 'aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin <your_account>.dkr.ecr.ap-south-1.amazonaws.com'
-                // sh 'docker tag ${BACKEND_IMAGE} <_
+            }
+        }
+
+        stage('Deploy with Docker Compose') {
+            steps {
+                script {
+                    sh 'docker-compose down'
+                    sh 'docker-compose up -d'
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Pipeline completed successfully!'
+        }
+        failure {
+            echo 'Pipeline failed. Check logs!'
+        }
+    }
+} // <- make sure this final closing brace exists
