@@ -7,12 +7,12 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-// PostgreSQL connection
+// PostgreSQL connection using environment variables
 const pool = new Pool({
-  user: "postgres",
-  host: "localhost",
-  database: "mydb",
-  password: "dharunsiva@1", // replace with your password
+  user: process.env.DB_USER || "postgres",
+  host: process.env.DB_HOST || "localhost",
+  database: process.env.DB_NAME || "mydb",
+  password: process.env.DB_PASS || "dharunsiva@1",
   port: 5432,
 });
 
